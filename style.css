@@ -1,0 +1,20 @@
+.error{
+    color: red;
+}
+/* div.question{
+    display: none
+} */
+.w{
+    background: red;
+}
+/* #progressbar{
+    height: 100%;
+    background: red;
+} */
+/* .infoUtilisateur{
+    display:flex;
+    flex-direction: column;
+} */
+.cache{
+    display: none
+}
