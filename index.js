@@ -151,7 +151,7 @@ let createResultat = () => {
     }
     let nomValue = $("#nom").val();
     let prenomValue = $("#prenom").val();
-    let statutValue = $("option:checked").val();
+    let statutValue = $("option:checked").html();
     let nom = `<p>${nomValue}</p>`;
     let prenom = `<p>${prenomValue}</p>`;
     let age = `<p>${ageValue}</p>`;
