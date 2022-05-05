@@ -1,11 +1,11 @@
 .error{
     color: red;
 }
-/* #questions{
+#questions{
     position: relative;
     background: blue;
-    width: 500px;
-} */
+    left: -3000px;
+}
 .w{
     background: red;
 }

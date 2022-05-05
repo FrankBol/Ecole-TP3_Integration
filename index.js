@@ -71,6 +71,8 @@ jQuery.validator.addMethod(
 
 let index = 0
 let quiz = () => {
+    $("#questions").animate({left: '0px'})
+    
     $(`#questions`).append(`<h2> ${index+1}-${questions[index].question} </h2>`);
     //Loop pour choix de réponse
     for (let r = 0; r < questions[index].réponses.length; r++) {
@@ -83,8 +85,11 @@ let quiz = () => {
     let btnFin = `<button type=button name=validReponse>Terminer</button>`
     index != questions.length-1 ? $(`#questions`).append(btnSuivant) : $(`#questions`).append(btnFin)
 
+    if(index != 0){$("#questions").animate({height: 'toggle'})}
+
     nextQuestion(index)
     index++
+
 }
 
 let nextQuestion = (index) => {
@@ -95,12 +100,12 @@ let nextQuestion = (index) => {
             if (index != questions.length - 1) {
                 //insertion la réponse de l'utilisateur dans objet "questions"
                 questions[index].repUtilisateur = checked.attr("value");
-                // $("#questions").animate({left: '1250px'})
+                $("#questions").animate({height: 'toggle'})
                 $(`#questions`).html("")
                 quiz()
                 progressbar()
-                
-                
+
+                      
                 //Dernière Questions
             } else {
                 //insertion la réponse de l'utilisateur dans objet "questions"
