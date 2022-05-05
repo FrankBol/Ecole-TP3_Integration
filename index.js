@@ -36,11 +36,11 @@ $("#formInfoPersonnes").validate({
         statut: "Veiller faire un choix"
     },
     submitHandler: function () {
-        $("#formInfoPersonnes").hide();
+        $("#conteneurInfoPersonnes").hide();
         quiz();
         progressbar()
     },
-    showErrors: function () {
+    showErrors: function (errorMap, errorList) {
         if (estSoumis) {
             const ul = $("<ul></ul>");
             $.each(errorList, function () {
@@ -95,9 +95,11 @@ let nextQuestion = (index) => {
             if (index != questions.length - 1) {
                 //insertion la réponse de l'utilisateur dans objet "questions"
                 questions[index].repUtilisateur = checked.attr("value");
+                // $("#questions").animate({left: '1250px'})
                 $(`#questions`).html("")
                 quiz()
                 progressbar()
+                
                 
                 //Dernière Questions
             } else {

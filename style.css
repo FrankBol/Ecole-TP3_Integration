@@ -1,8 +1,10 @@
 .error{
     color: red;
 }
-/* div.question{
-    display: none
+/* #questions{
+    position: relative;
+    background: blue;
+    width: 500px;
 } */
 .w{
     background: red;
