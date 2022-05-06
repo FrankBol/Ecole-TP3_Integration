@@ -204,7 +204,6 @@ let infoResult = () => {
         },
     ]
     });
-    }
     //--------------------------------------Accordéon---------------------------------
     for (let i = 0; i < questionsData.length; i++) {
         $("#accordeon").append(`<div class='drawer${i}'></div>`)
@@ -217,4 +216,6 @@ let infoResult = () => {
             $(".contenu").hide(500)
             $(this).parent().find(".contenu").show();
         });
+    }
 }
+    
