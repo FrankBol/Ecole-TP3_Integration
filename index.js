@@ -1,9 +1,9 @@
 "use strict"
 let questions = JSON.parse(questionsJson);
 
-let estSoumis;
+let submitTrue;
 
-$("#formInfoPersonnes").validate({
+$("#formInfoPersonal").validate({
     rules: {
         prenom: {
             required: true,
@@ -15,7 +15,7 @@ $("#formInfoPersonnes").validate({
         },
         dateNaissance: {
             required: true,
-            datePlusPetite: true
+            validDate: true
         },
         statut: "required",
 
@@ -31,35 +31,35 @@ $("#formInfoPersonnes").validate({
         },
         dateNaissance: {
             required: "Veuiller entre une Date",
-            datePlusPetite: "La date doit être inférieur à celle d'aujourd'hui"
+            validDate: "La date doit être inférieur à celle d'aujourd'hui"
         },
         statut: "Veiller faire un choix"
     },
     submitHandler: function () {
-        $("#conteneurInfoPersonnes").hide();
-        quiz();
-        progressbar()
+        $("#conteneurInfoPersonal").hide();
+        createQuizQuestion();
+        progressbar();
     },
     showErrors: function (errorMap, errorList) {
-        if (estSoumis) {
+        if (submitTrue) {
             const ul = $("<ul></ul>");
             $.each(errorList, function () {
                 ul.append(`<li>${this.message}</li>`);
             });
-            $("#affichageErreurs").html(ul);
-            estSoumis = false;
+            $("#errorSummary").html(ul);
+            submitTrue = false;
         }
         this.defaultShowErrors();
     },
     invalidHandler: function () {
-        estSoumis = true;
+        submitTrue = true;
     }
     });
 $.validator.addMethod(
-    "datePlusPetite",
+    "validDate",
     function (value, element) {
-        const dateActuelle = new Date();
-        return this.optional(element) || dateActuelle >= new Date(value);
+        const dateCurrent = new Date();
+        return this.optional(element) || dateCurrent >= new Date(value);
     },
 );
 jQuery.validator.addMethod(
@@ -69,60 +69,52 @@ jQuery.validator.addMethod(
     },
 );
 
-let index = 0
-let quiz = () => {
-    // $("#questions").animate({left: '0px'})
-    console.log("wwwwwwwwwwwwwwwwww");
-    $("#questions").fadeIn("slow")
-    $(`#questions`).append(`<h2> ${index+1}-${questions[index].question} </h2>`);
-    //Loop pour choix de réponse
-    for (let r = 0; r < questions[index].réponses.length; r++) {
-        let inputChoixReponse = `<input type=radio name=reponse${index} id=reponse${r} value=${r}>`
-        let labelChoixReponse = `<label for=reponse${r}>${questions[index].réponses[r]}</label><br>`
-        $(`#questions`).append(inputChoixReponse, labelChoixReponse);
+let IndexCurrentQuestion = 0
+let createQuizQuestion = () => {
+
+    $(`#questions`).append(`<h2> ${IndexCurrentQuestion+1}-${questions[IndexCurrentQuestion].question} </h2>`);
+    //---------------------------Choix de réponse----------------------------
+    for (let r = 0; r < questions[IndexCurrentQuestion].réponses.length; r++) {
+        let inputResponseChoice = `<input type=radio name=reponse${IndexCurrentQuestion} id=reponse${r} value=${r}>`
+        let labelResponseChoise = `<label for=reponse${r}>${questions[IndexCurrentQuestion].réponses[r]}</label><br>`
+        $(`#questions`).append(inputResponseChoice, labelResponseChoise);
     }
-    //création bouton
-    let btnSuivant = `<button type=button name=validReponse>Suivant</button>`
-    let btnFin = `<button type=button name=validReponse>Terminer</button>`
-    index != questions.length-1 ? $(`#questions`).append(btnSuivant) : $(`#questions`).append(btnFin)
+    //---------------------------Création bouton---------------------------
+    let btnNext = `<button type=button name=validResponse>Suivant</button>`
+    let btnEnd = `<button type=button name=validResponse>Terminer</button>`
+    IndexCurrentQuestion != questions.length-1 ? $(`#questions`).append(btnNext) : $(`#questions`).append(btnEnd)
 
-    // if(index != 0){$("#questions").animate({height: 'toggle'})}
-
-    nextQuestion(index)
-    index++
-
+    nextQuestion(IndexCurrentQuestion)
+    IndexCurrentQuestion++
 }
 
-let nextQuestion = (index) => {
-    $(`button[name=validReponse]`).on("click", function () {
+let nextQuestion = (IndexCurrentQuestion) => {
 
+    $(`button[name=validResponse]`).on("click", function () {
         let checked = $(this).parent().find("input:checked");
         if (checked.length != 0) {
-            if (index != questions.length - 1) {
-                //insertion la réponse de l'utilisateur dans objet "questions"
-                questions[index].repUtilisateur = checked.attr("value");
-                // $("#questions").animate({height: 'toggle'})
-
-                $("#questions").fadeOut('slow').queue(function() {
+            if (IndexCurrentQuestion != questions.length - 1) {
+                //insertion la réponse de l'utilisateur dans l'objet "questions"
+                questions[IndexCurrentQuestion].resUser = checked.attr("value");
+                //animation
+                $("#questions").fadeOut(300).queue(function() {
                     $(`#questions`).html("")
-                    quiz()
+                    $("#questions").fadeIn(800)
+                    createQuizQuestion()
                     progressbar()
                     $(this).dequeue();
                  });
-  
 
-                      
-                //Dernière Questions
-            } else {
-                //insertion la réponse de l'utilisateur dans objet "questions"
-                questions[index].repUtilisateur = checked.attr("value");
+            } else {//Dernière Questions
 
+                //insertion la réponse de l'utilisateur dans l'objet "questions"
+                questions[IndexCurrentQuestion].resUser = checked.attr("value");
                 $(`#questions`).html("")
                 $("#progressbar").remove()
-                $("#tableauResultat").removeClass("cache");
-                nbrBonneRep()
-                tableauResultat()
-                createResultat()
+                $("#pageResult").removeClass("hide");
+                totalGoodRes()
+                infoResult()
+                tabQuestionsResult()
             }
         }
     })
@@ -134,34 +126,34 @@ let progressbar = () => {
         value: 100 / questions.length * indexProgress
     })
 }
-
-let bonneRep = 0;
-let nbrBonneRep = () => {
+let goodRes = 0;
+let totalGoodRes = () => {
     questions.forEach(function (q) {
-        if (q.réponse == q.repUtilisateur) {
-            q.verdictRep = "Correct"
-            bonneRep++
+        if (q.réponse == q.resUser) {
+            q.verdictRes = "Correct"
+            goodRes++
         }else{
-            q.verdictRep = "Erreur"}
+            q.verdictRes = "Erreur"
+        }
     })
 }
+let infoResult = () => {
+    //----------------------------------Calcul de la Date de Naissance-----------------------------
+    let dateNow = new Date();
+    let dateEnterUser = new Date($('#date').val());
 
-let createResultat = () => {
-    //Calcul de la Date de Naissance
-    let now = new Date();
-    let past = new Date($('#date').val());
+    let nowYear = dateNow.getFullYear();
+    let userYear = dateEnterUser.getFullYear();
+    let ageValue = parseInt(nowYear - userYear);
 
-    let nowYear = now.getFullYear();
-    let pastYear = past.getFullYear();
-    let ageValue = parseInt(nowYear - pastYear);
-
-    if (now.getMonth() < past.getMonth()) {
+    if (dateNow.getMonth() < dateEnterUser.getMonth()) {
         ageValue -= 1
-    } else if (now.getMonth() == past.getMonth()) {
-        if (now.getDay() < past.getDay()) {
+    } else if (dateNow.getMonth() == dateEnterUser.getMonth()) {
+        if (dateNow.getDay() < dateEnterUser.getDay()) {
             ageValue -= 1
         }
     }
+    //-------------------------------info + résusltat de l'utilisateur----------------------------
     let nomValue = $("#nom").val();
     let prenomValue = $("#prenom").val();
     let statutValue = $("option:checked").html();
@@ -169,12 +161,16 @@ let createResultat = () => {
     let prenom = `<p>${prenomValue}</p>`;
     let age = `<p>${ageValue}</p>`;
     let statut = `<p>${statutValue}</p>`;
-    let calculScore = Math.floor(bonneRep/questions.length*100)
+    let calculScore = Math.floor(goodRes/questions.length*100)
     let score = `Votre Score : ${calculScore} %`;
-
     $("#infoUtilisateur").append(nom, prenom, age, statut, score);
 
+    //---------------------------------------Modal------------------------------------
+    let success = "<p>Réussite</p>"
+    let fail = "<p>Échec</p>"
+    $("#modalResultat").append(calculScore >= 60 ? success : fail)
     $( function() {
+        // $("#modalResultat").append(`<img src="gif-ballon.gif"></img>`)
         $( "#modalResultat" ).dialog({
           modal: true,
           buttons: {
@@ -183,120 +179,42 @@ let createResultat = () => {
             }
           }
         });
-      } );
-    let reussite = "<p>Réussite</p>"
-    let echec = "<p>Échec</p>"
-    $("#modalResultat").append(calculScore >= 60 ? reussite : echec)
+      });
 
+    //---------------------------------Message alert -----------------------------------
+    let scoreHight = `<p class="alert alert-success text-center">Your The Boss Dude!!!!!</p>`
+    let scoreMiddle = `<p class="alert alert-warning text-center">Hisssssss sur les fesses</p>`
+    let scoreLow = `<p class="alert alert-danger text-center">T'es capable de faire mieux El Gros</p>`
 
-    let perPlus70 = `<p class="alert alert-success text-center">Your The Boss Dude!!!!!</p>`
-    let per6070 = `<p class="alert alert-warning text-center">Hisssssss sur les fesses</p>`
-    let perMoin60 = `<p class="alert alert-danger text-center">T'es capable de faire mieux El Gros</p>`
-    if(calculScore < 60){
-        console.log(60);
-        $("#alertResultat").append(perMoin60)
-    }else if(calculScore){
-        console.log(75);
-        $("#alertResultat").append(per6070)
-    }else{
-        $("#alertResultat").append(perPlus70)
-    }
+    if(calculScore < 60) $("#alertResult").append(scoreLow)
+    else if(calculScore >= 60 && calculScore <=75) $("#alertResult").append(scoreMiddle)
+    else $("#alertResult").append(scoreHight)
 
-}
-
-let tableauResultat = () => {
-    $('#myTable').DataTable({
+    //--------------------------Tableau question + resultat-----------------------
+    $('#tabResult').DataTable({
         data: questions,
         columns: [{
-                data: "numero"
-            },
-            {
-                data: "question"
-            },
-            {
-                data: "verdictRep"
-            },
-        ]
+            data: "numero"
+        },
+        {
+            data: "question"
+        },
+        {
+            data: "verdictRes"
+        },
+    ]
     });
+    }
+    //--------------------------------------Accordéon---------------------------------
+    for (let i = 0; i < questions.length; i++) {
+        $("#accordeon").append(`<div class='drawer${i}'></div>`)
+        $(`.drawer${i}`).append(`<p class="titre${i} titleClick">${i+1}-${questions[i].question}</p>`)
+        for (let q = 0; q < questions[i].réponses.length; q++) {
+            $(`.titre${i}`).append(`<p class="contenu">${questions[i].réponses[q]}</p>`)   
+        }
+        $(".contenu").hide();
+        $(".titleClick").on("click", function () {
+            $(".contenu").hide(500)
+            $(this).parent().find(".contenu").show();
+        });
 }
-
-$(".contenu").hide();
-$(".titre").on("click", function () {
-    $(".contenu").hide(500)
-    $(this).parent().find(".contenu").show();
-});
-
-
-
-
-
-// quiz = () => {
-//     for (let i = 0; i < questions.length; i++) {
-//         $("#questions").append(`<div id=question${i}></div>`)
-//         $(`#question${i}`).append(`<h2> ${i+1}-${questions[i].question} </h2>`);
-//         for (let r = 0; r < questions[i].réponses.length; r++) {
-
-//             $(`#question${i}`).append(`<input type=radio name=reponse${i} id=reponse${i}.${r} value=${r}>`);
-//             $(`#question${i}`).append(`<label for=reponse${i}.${r}>${questions[i].réponses[r]}</label><br>`);
-//         }
-//         if (i == questions.length - 1) {
-//             $(`#question${i}`).append(`<button type=button name=validReponse${i} id=quizEnd>Terminer</button>`);
-//         } else {
-//             $(`#question${i}`).append(`<button type=button name=validReponse${i}>Valider</button>`);
-//         }
-//         if (i == 0) {
-//             $(`#question${i}`).show();
-//         } else {
-//             $(`#question${i}`).hide();
-//         }
-//         $(`button[name=validReponse${i}]`).on("click", function () {
-//             let checked = $(this).parent().find("input:checked");
-
-//             if (checked.length != 0) {
-//                 if ($(this).attr("id") == "quizEnd") {
-//                     questions[i].repUtilisateur = checked.attr("value");
-//                     $(this).parent().hide();
-
-//                     questions.forEach(function (q) {
-
-//                         if (q.réponse == q.repUtilisateur) {
-//                             bonneRep ++            
-//                         }
-//                     });
-//                     $("#tableauResultat").removeClass("cache");
-//                     $("#progressbar").hide();
-//                     createResultat()
-//                     tableauResultat()
-
-//                 } else {
-//                     questions[i].repUtilisateur = checked.attr("value");
-//                     $(this).parent().hide();
-//                     $(this).parent().next().show();
-//                     progressbar();   
-//                 }                   
-//             }
-//         });   
-//     }
-// };                 
-
-
-// $("#test").append("<p>allo</p>", "<p>yooo</p>", "<p>yooo2</p>", "<p>yooo3</p>")
-
-
-
-// if(index != questions.length -1){
-//     $(`#question${index}`).append(`<button type=button name=validReponse>Suivant</button>`);
-// //Dernière
-// }else{
-//     $(`#question${index}`).append(`<button type=button name=validReponse>Terminer</button>`);
-// }
-
-
-
-
-// $(`button[name=validReponse]`).on("click", function (){
-//     let checked = $(this).parent().find("input:checked");
-//     if(checked.length != 0){           
-//         nextQuestion(index, checked);
-//     }
-// })

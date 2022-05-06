@@ -16,10 +16,10 @@
 
   <div id="modalResultat" title="Résultat"></div>
 
-  <div class="container" id="conteneurInfoPersonnes">
-  <div id="affichageErreurs"></div>
+  <div class="container" id="conteneurInfoPersonal">
+  <div id="errorSummary"></div>
     <h1>Information Personnelle</h1>
-    <form name="formInfoPersonnes" id="formInfoPersonnes">
+    <form name="formInfoPersonal" id="formInfoPersonal">
       <div class="form-group">
         <label for="prenom">Prénom</label>
         <input type="text" name="prenom" id="prenom" class="form-control">
@@ -46,14 +46,14 @@
     </form>
   </div>
 
-  <div id="alertResultat" role="alert"></div>
+  <div id="alertResult" role="alert"></div>
 
   <div id="questions" class="container animation-question"></div>
 
-  <div id="tableauResultat" class="row cache">
-    <section id="infoUtilisateur" class="col-4"></section>
-    <section class="col-4" >
-      <table class="table table-striped" id="myTable">
+  <div id="pageResult" class="row hide">
+    <section id="infoUtilisateur" class="col-2"></section>
+    <section class="col-6" >
+      <table class="table table-striped" id="tabResult">
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -64,60 +64,13 @@
       </table>
     </section>
     <section class="col-4" >
-      <div class="accordeon">
-        <div class="tirroir">
-          <p class="titre">Titre 1</p>
-          <p class="contenu">Contenu 1</p>
-        </div>
-        <div class="tirroir">
-          <p class="titre">Titre 2</p>
-          <p class="contenu">Contenu 2</p>
-        </div>
-        <div class="tirroir">
-          <p class="titre">Titre 3</p>
-          <p class="contenu">Contenu 3</p>
-        </div>
+      <div id="accordeon">
       </div>
     </section>
   </div>
 
-
-
   <div id="progressbar"></div>
 
-
-
-<div id="test"></div>
-
-
-
-      
-
-
-      <!-- <button class="btn " aria-label="modale" type="button" data-bs-toggle="modal" data-bs-target="#reg-modal">fdsffzdfsdfssdsdfsdfssdf</button>
-
-      <div class="modal" id="reg-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <p class="modal-title h3">Page rechercher</p>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <a href="#">Acceueil</a><br>
-              <a href="#">Création</a><br>
-              <a href="#">Personnage</a><br>
-              <a href="#">Défaut</a>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div> -->
-
-
-    
   <script
     src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
