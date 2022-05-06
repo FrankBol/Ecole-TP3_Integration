@@ -1,5 +1,6 @@
 "use strict"
-let questions = JSON.parse(questionsJson);
+
+let questionsData = JSON.parse(questionsJson);
 
 let submitTrue;
 
@@ -72,17 +73,17 @@ jQuery.validator.addMethod(
 let IndexCurrentQuestion = 0
 let createQuizQuestion = () => {
 
-    $(`#questions`).append(`<h2> ${IndexCurrentQuestion+1}-${questions[IndexCurrentQuestion].question} </h2>`);
+    $(`#questions`).append(`<h2> ${IndexCurrentQuestion+1}-${questionsData[IndexCurrentQuestion].question} </h2>`);
     //---------------------------Choix de réponse----------------------------
-    for (let r = 0; r < questions[IndexCurrentQuestion].réponses.length; r++) {
+    for (let r = 0; r < questionsData[IndexCurrentQuestion].réponses.length; r++) {
         let inputResponseChoice = `<input type=radio name=reponse${IndexCurrentQuestion} id=reponse${r} value=${r}>`
-        let labelResponseChoise = `<label for=reponse${r}>${questions[IndexCurrentQuestion].réponses[r]}</label><br>`
+        let labelResponseChoise = `<label for=reponse${r}>${questionsData[IndexCurrentQuestion].réponses[r]}</label><br>`
         $(`#questions`).append(inputResponseChoice, labelResponseChoise);
     }
     //---------------------------Création bouton---------------------------
     let btnNext = `<button type=button name=validResponse>Suivant</button>`
     let btnEnd = `<button type=button name=validResponse>Terminer</button>`
-    IndexCurrentQuestion != questions.length-1 ? $(`#questions`).append(btnNext) : $(`#questions`).append(btnEnd)
+    IndexCurrentQuestion != questionsData.length-1 ? $(`#questions`).append(btnNext) : $(`#questions`).append(btnEnd)
 
     nextQuestion(IndexCurrentQuestion)
     IndexCurrentQuestion++
@@ -93,9 +94,9 @@ let nextQuestion = (IndexCurrentQuestion) => {
     $(`button[name=validResponse]`).on("click", function () {
         let checked = $(this).parent().find("input:checked");
         if (checked.length != 0) {
-            if (IndexCurrentQuestion != questions.length - 1) {
-                //insertion la réponse de l'utilisateur dans l'objet "questions"
-                questions[IndexCurrentQuestion].resUser = checked.attr("value");
+            if (IndexCurrentQuestion != questionsData.length - 1) {
+                //insertion de la réponse de l'utilisateur dans l'objet "questionsData"
+                questionsData[IndexCurrentQuestion].resUser = checked.attr("value");
                 //animation
                 $("#questions").fadeOut(300).queue(function() {
                     $(`#questions`).html("")
@@ -107,14 +108,13 @@ let nextQuestion = (IndexCurrentQuestion) => {
 
             } else {//Dernière Questions
 
-                //insertion la réponse de l'utilisateur dans l'objet "questions"
-                questions[IndexCurrentQuestion].resUser = checked.attr("value");
+                //insertion de la réponse de l'utilisateur dans l'objet "questionsData"
+                questionsData[IndexCurrentQuestion].resUser = checked.attr("value");
                 $(`#questions`).html("")
                 $("#progressbar").remove()
                 $("#pageResult").removeClass("hide");
                 totalGoodRes()
                 infoResult()
-                tabQuestionsResult()
             }
         }
     })
@@ -123,12 +123,12 @@ let indexProgress = 0
 let progressbar = () => {
     indexProgress++
     $("#progressbar").progressbar({
-        value: 100 / questions.length * indexProgress
+        value: 100 / questionsData.length * indexProgress
     })
 }
 let goodRes = 0;
 let totalGoodRes = () => {
-    questions.forEach(function (q) {
+    questionsData.forEach(function (q) {
         if (q.réponse == q.resUser) {
             q.verdictRes = "Correct"
             goodRes++
@@ -161,7 +161,7 @@ let infoResult = () => {
     let prenom = `<p>${prenomValue}</p>`;
     let age = `<p>${ageValue}</p>`;
     let statut = `<p>${statutValue}</p>`;
-    let calculScore = Math.floor(goodRes/questions.length*100)
+    let calculScore = Math.floor(goodRes/questionsData.length*100)
     let score = `Votre Score : ${calculScore} %`;
     $("#infoUtilisateur").append(nom, prenom, age, statut, score);
 
@@ -192,7 +192,7 @@ let infoResult = () => {
 
     //--------------------------Tableau question + resultat-----------------------
     $('#tabResult').DataTable({
-        data: questions,
+        data: questionsData,
         columns: [{
             data: "numero"
         },
@@ -206,11 +206,11 @@ let infoResult = () => {
     });
     }
     //--------------------------------------Accordéon---------------------------------
-    for (let i = 0; i < questions.length; i++) {
+    for (let i = 0; i < questionsData.length; i++) {
         $("#accordeon").append(`<div class='drawer${i}'></div>`)
-        $(`.drawer${i}`).append(`<p class="titre${i} titleClick">${i+1}-${questions[i].question}</p>`)
-        for (let q = 0; q < questions[i].réponses.length; q++) {
-            $(`.titre${i}`).append(`<p class="contenu">${questions[i].réponses[q]}</p>`)   
+        $(`.drawer${i}`).append(`<p class="titre${i} titleClick">${i+1}-${questionsData[i].question}</p>`)
+        for (let q = 0; q < questionsData[i].réponses.length; q++) {
+            $(`.titre${i}`).append(`<p class="contenu">${questionsData[i].réponses[q]}</p>`)   
         }
         $(".contenu").hide();
         $(".titleClick").on("click", function () {
