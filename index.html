@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="public/style/index.css">
+    <link rel="stylesheet" href="">
+    
 
     <title>Document</title>
 </head>
@@ -17,9 +19,9 @@
   <div id="modalResultat" title="Résultat"></div>
 
   <div class="container" id="conteneurInfoPersonal">
-  <div id="errorSummary"></div>
+  <div class="bg-danger text-white w-50" id="errorSummary"></div>
     <h1>Information Personnelle</h1>
-    <form name="formInfoPersonal" id="formInfoPersonal">
+    <form name="formInfoPersonal" class="" id="formInfoPersonal">
       <div class="form-group">
         <label for="prenom">Prénom</label>
         <input type="text" name="prenom" id="prenom" class="form-control">
@@ -50,7 +52,7 @@
 
   <div id="questions" class="container animation-question"></div>
 
-  <div id="pageResult" class="row hide">
+  <div id="pageResult" class="row d-none">
     <section id="infoUtilisateur" class="col-2"></section>
     <section class="col-6" >
       <table class="table table-striped" id="tabResult">
