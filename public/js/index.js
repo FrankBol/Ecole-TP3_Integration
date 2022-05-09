@@ -223,10 +223,8 @@ function accordeon(){
         });
     }
 }
-
-let infoResult = () => {
-
     //-------------------------------info + résusltat de l'utilisateur----------------------------
+let infoResult = () => {
     let nomValue = $("#nom").val();
     let prenomValue = $("#prenom").val();
     let statutValue = $("option:checked").html();
