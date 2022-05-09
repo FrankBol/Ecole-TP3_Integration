@@ -1,10 +1,20 @@
+
+$primary: #8CACD3;
+$secondary : #bebaca;
+$danger : rgb(245, 103, 103);
+$success: rgb(170, 223, 170);
+$warning: #F5DF4D;
+$grey: #939597;
+
 *{
-
-
-
+    box-sizing: border-box!important;
+    font-family: carter one;
 }
 
-$danger : rgb(245, 103, 103);
+
+body{
+    background: $secondary!important;
+}
 
 .error{
     color: $danger;
@@ -17,10 +27,49 @@ $danger : rgb(245, 103, 103);
     z-index: 1000;
     position: absolute;
     right: 50%;
-
     transform: translateY(50%);
     transform: translatex(50%);
 }
 
+//-----------------------------------Page Questionnaire --------------------------------------------------------
+.bloc-questions{
+    filter: drop-shadow(10px 10px 2px $grey);
+    width: 40%;
+    margin: auto;
 
+    h1{
+        -webkit-text-stroke: 5px $success;
+        text-align: center;
+        padding: 10px 0 30px;
+        color: white;
+        font-size: 6rem;
+    }
+    .questions{
+        color: white;
+        padding: 40px;
+        background: $warning;
+        clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+        h2{
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        &:last-child div{
+            text-align: center;
+            button{
+                color: white;
+                border-radius: 20px;
+                background: $grey;
+            }
+        }
+
+    }
+}
+//-----------------------------Page Résultat-------------------------------
+
+.ui-progressbar-value{
+    background: $success;
+}
+.progressbar{
+    background: rgb(239, 239, 239)
+}
 @import "./node_modules/bootstrap/scss/bootstrap"; 
