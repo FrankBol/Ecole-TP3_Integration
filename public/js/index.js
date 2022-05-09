@@ -39,6 +39,7 @@ $("#formInfoPersonal").validate({
     },
     submitHandler: function () {
         $("#conteneurInfoPersonal").hide();
+        $("#bloc-questions").removeClass("d-none");
         createQuizQuestion();
         progressbar();
     },
@@ -82,17 +83,17 @@ let createQuizQuestion = () => {
     $(`#questions`).append(`<h2> ${IndexCurrentQuestion+1}-${questionsData[IndexCurrentQuestion].question} </h2>`);
     //---------------------------Choix de réponses----------------------------
     for (let r = 0; r < questionsData[IndexCurrentQuestion].réponses.length; r++) {
-        let inputResponseChoice = `<input type=radio name=reponse${IndexCurrentQuestion} id=reponse${r} value=${r}>`
-        let labelResponseChoise = `<label for=reponse${r}>${questionsData[IndexCurrentQuestion].réponses[r]}</label><br>`
+        let inputResponseChoice = `<input type=radio class=form-check-input name=reponse${IndexCurrentQuestion} id=reponse${r} value=${r}>`
+        let labelResponseChoise = `<label  for=reponse${r}>${questionsData[IndexCurrentQuestion].réponses[r]}</label><br>`
         $(`#questions`).append(inputResponseChoice, labelResponseChoise);
     }
     //---------------------------Création boutons---------------------------
-    let btnNext = `<button type=button name=validResponse>Suivant</button>`
-    let btnEnd = `<button type=button name=validResponse>Terminer</button>`
+    let btnNext = `<div><button type=button name=validResponse>Suivant</button></div>`
+    let btnEnd = `<div><button type=button name=validResponse>Terminer</button></div>`
     IndexCurrentQuestion != questionsData.length-1 ? $(`#questions`).append(btnNext) : $(`#questions`).append(btnEnd)
 
     $(`button[name=validResponse]`).on("click", function () {
-        let checked = $(this).parent().find("input:checked");
+        let checked = $(this).parent().parent().find("input:checked");
 
         if (checked.length != 0) {
             if (IndexCurrentQuestion  != questionsData.length) {
@@ -110,7 +111,7 @@ let createQuizQuestion = () => {
 
                 //insertion de la réponse de l'utilisateur dans l'objet "questionsData"
                 questionsData[IndexCurrentQuestion-1].resUser = checked.attr("value");
-                $(`#questions`).html("")
+                $(`#bloc-questions`).remove()
                 $("#progressbar").remove()
                 $("#pageResult").removeClass("d-none");
                 pageResult()
@@ -121,6 +122,7 @@ let createQuizQuestion = () => {
 }
 
 function pageResult(){
+    modal()
     totalNbrRes()
     alertMessage()
     tabResult()
@@ -143,7 +145,6 @@ function totalNbrRes() {
 }
 //-------------------------Calcul du % de bonne réponses-----------------------
 let calculScore = () => Math.floor(totalNbrRes()/questionsData.length*100)
-
 //---------------------------------Modal-----------------------------------------
 function modal(){
     let success = "<p>Réussite</p>"
@@ -162,12 +163,14 @@ function modal(){
 }
 //---------------------------------Message alert -----------------------------------
 function alertMessage(){
-    let scoreHight = `<p class="alert alert-success text-center">Your The Boss Dude!!!!!</p>`
+    const score = calculScore()
+
+    let scoreHight = `<p class="alert alert-success text-center">C'est toi le Boss Dude!!!!!</p>`
     let scoreMiddle = `<p class="alert alert-warning text-center">Hisssssss sur les fesses</p>`
     let scoreLow = `<p class="alert alert-danger text-center">T'es capable de faire mieux El Gros</p>`
 
-    if(calculScore() < 60) $("#alertResult").append(scoreLow)
-    else if(calculScore() >= 60 && calculScore() <=75) $("#alertResult").append(scoreMiddle)
+    if(score < 60) $("#alertResult").append(scoreLow)
+    else if(score >= 60 && score <=75) $("#alertResult").append(scoreMiddle)
     else $("#alertResult").append(scoreHight)
 }
 
@@ -227,14 +230,12 @@ let infoResult = () => {
     let nomValue = $("#nom").val();
     let prenomValue = $("#prenom").val();
     let statutValue = $("option:checked").html();
-    let nom = `<p>${nomValue}</p>`;
-    let prenom = `<p>${prenomValue}</p>`;
-    let age = `<p>${ageUser()}</p>`;
-    let statut = `<p>${statutValue}</p>`;
-    // let calculScore = Math.floor(goodRes/questionsData.length*100)
+    let nom = `<p>Nom : ${nomValue}</p>`;
+    let prenom = `<p>Prénom : ${prenomValue}</p>`;
+    let age = `<p>Age : ${ageUser()}</p>`;
+    let statut = `<p>Statut : ${statutValue}</p>`;
     let score = `Votre Score : ${calculScore()} %`;
     $("#infoUtilisateur").append(nom, prenom, age , statut, score);
-    modal(calculScore)
-}
+};
 
 

@@ -16,8 +16,7 @@
 </head>
 <body>
 
-  <div id="modalResultat" title="Résultat"></div>
-
+  <!-- -------------------------------------Page Formulaire------------------------------------ -->
   <div class="container" id="conteneurInfoPersonal">
   <div class="bg-danger text-white w-50" id="errorSummary"></div>
     <h1>Information Personnelle</h1>
@@ -48,13 +47,25 @@
     </form>
   </div>
 
+  <!-- -----------------------------------------Page Quiz---------------------------------------- -->
+  <div id="progressbar" class="progressbar"></div>
+  <div id="bloc-questions" class="d-none bloc-questions">
+    <h1>QUIZ</h1>
+  <div id="questions" class="questions animation-question"></div>
+  </div>
+
+  <!-- -----------------------------------------Page Résultat--------------------------------------- -->
+
+  <div id="modalResultat" title="Résultat"></div>
   <div id="alertResult" role="alert"></div>
 
-  <div id="questions" class="container questions animation-question"></div>
-
-  <div id="pageResult" class="row d-none">
-    <section id="infoUtilisateur" class="col-2"></section>
-    <section class="col-6" >
+  <div id="pageResult" class="d-none ">
+  <h1 class="text-center text-white">Vos résultat en détaille</h1>
+  <div class="row mt-5">
+    <section id="infoUtilisateur" class="col-3 bg-success border shadow rounded border-dark p-5">
+      <p class="h5 border-bottom border-dark">Information Personel</p>
+    </section>
+    <section class="col-6 bg-warning border shadow rounded border-dark p-5" >
       <table class="table table-striped" id="tabResult">
         <thead>
           <tr>
@@ -65,13 +76,12 @@
         </thead>
       </table>
     </section>
-    <section class="col-4" >
-      <div id="accordeon">
-      </div>
+    <section class="col-3 bg-success border shadow rounded border-dark p-5" >
+      <div id="accordeon"></div>
     </section>
   </div>
-
-  <div id="progressbar"></div>
+</div>
+ 
 
   <script
     src="https://code.jquery.com/jquery-3.6.0.min.js"
