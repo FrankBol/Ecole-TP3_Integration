@@ -71,6 +71,13 @@ jQuery.validator.addMethod(
     },
 );
 
+//----------------------------------------ProgressBar---------------------------------
+let progressbar = () => {
+    $("#progressbar").progressbar({
+        value: 100 / questionsData.length * IndexCurrentQuestion
+    })
+}
+
 let createQuizQuestion = () => {
     $(`#questions`).append(`<h2> ${IndexCurrentQuestion+1}-${questionsData[IndexCurrentQuestion].question} </h2>`);
     //---------------------------Choix de réponses----------------------------
@@ -121,12 +128,6 @@ function pageResult(){
     infoResult()
 }
 
-//----------------------------------------ProgressBar---------------------------------
-let progressbar = () => {
-    $("#progressbar").progressbar({
-        value: 100 / questionsData.length * IndexCurrentQuestion
-    })
-}
 //----------------------------------alcul Bonnes Réponses-----------------------------
 function totalNbrRes() {
     let goodRes = 0;
