@@ -218,7 +218,7 @@ function accordeon(){
         }
         $(".contenu").hide();
         $(".titleClick").on("click", function () {
-            $(".contenu").hide(500)
+            $(".contenu").hide()
             $(this).parent().find(".contenu").show();
         });
     }
