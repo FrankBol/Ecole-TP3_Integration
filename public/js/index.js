@@ -212,13 +212,13 @@ function tabResult(){
 function accordeon(){
     for (let i = 0; i < questionsData.length; i++) {
         $("#accordeon").append(`<div class='drawer${i}'></div>`)
-        $(`.drawer${i}`).append(`<p class="titre${i} titleClick">${i+1}-${questionsData[i].question}</p>`)
+        $(`.drawer${i}`).append(`<p class="titre${i}">${i+1}-${questionsData[i].question}</p>`)
         for (let q = 0; q < questionsData[i].réponses.length; q++) {
             $(`.titre${i}`).append(`<p class="contenu">${questionsData[i].réponses[q]}</p>`)   
         }
         $(".contenu").hide();
-        $(".titleClick").on("click", function () {
-            $(".contenu").hide()
+        $(`.titre${i}`).on("click", function () {
+            $(".contenu").hide(500)
             $(this).parent().find(".contenu").show();
         });
     }
