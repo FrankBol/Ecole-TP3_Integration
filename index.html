@@ -18,24 +18,24 @@
 
   <!-- -------------------------------------Page Formulaire------------------------------------ -->
   <div class="container" id="conteneurInfoPersonal">
-  <div class="bg-danger text-white w-50" id="errorSummary"></div>
+  <div class="bg-danger rounded mt-5 text-white w-50" id="errorSummary"></div>
     <h1>Information Personnelle</h1>
-    <form name="formInfoPersonal" class="" id="formInfoPersonal">
+    <form name="formInfoPersonal" class="mt-3" id="formInfoPersonal">
       <div class="form-group">
         <label for="prenom">Prénom</label>
-        <input type="text" name="prenom" id="prenom" class="form-control">
+        <input type="text" name="prenom" id="prenom" aria-label="Prenom" class="form-control">
       </div>
       <div class="form-group">
         <label for="nom">Nom</label>
-        <input type="text" name="nom" id="nom" class="form-control" >
+        <input type="text" name="nom" id="nom" aria-label="Nom" class="form-control" >
       </div>
       <div class="form-group">
         <label for="dateNaissance">Date de Naissance</label>
-        <input type="date" name="dateNaissance" id="date" class="form-control">
+        <input type="date" name="dateNaissance" id="date" aria-label="date" class="form-control">
       </div>
       <div class="form-group">
         <label for="statut">Votre Statut</label>
-        <select class="form-control" name="statut">
+        <select class="form-control" aria-label="statut" name="statut">
           <option value="">--Choisir--</option>
           <option value="etudiant">Étudiant</option>
           <option value="proffesseur">Professeur</option>
