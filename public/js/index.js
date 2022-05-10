@@ -1,9 +1,9 @@
 "use strict"
 
-let questionsData = JSON.parse(questionsJson);
+let questionsData = JSON.parse(questionsJson)
 
 let IndexCurrentQuestion = 0
-let submitTrue;
+let submitTrue
 
 $("#formInfoPersonal").validate({
     rules: {
@@ -38,39 +38,39 @@ $("#formInfoPersonal").validate({
         statut: "Veiller faire un choix"
     },
     submitHandler: function () {
-        $("#conteneurInfoPersonal").hide();
-        $("#bloc-questions").removeClass("d-none");
-        createQuizQuestion();
-        progressbar();
+        $("#conteneurInfoPersonal").hide()
+        $("#bloc-questions").removeClass("d-none")
+        createQuizQuestion()
+        progressbar()
     },
     showErrors: function (errorMap, errorList) {
         if (submitTrue) {
             const ul = $("<ul></ul>");
             $.each(errorList, function () {
-                ul.append(`<li>${this.message}</li>`);
-            });
-            $("#errorSummary").html(ul);
-            submitTrue = false;
+                ul.append(`<li>${this.message}</li>`)
+            })
+            $("#errorSummary").html(ul)
+            submitTrue = false
         }
-        this.defaultShowErrors();
+        this.defaultShowErrors()
     },
     invalidHandler: function () {
-        submitTrue = true;
+        submitTrue = true
     }
     });
 $.validator.addMethod(
     "validDate",
     function (value, element) {
-        const dateCurrent = new Date();
-        return this.optional(element) || dateCurrent >= new Date(value);
+        const dateCurrent = new Date()
+        return this.optional(element) || dateCurrent >= new Date(value)
     },
 );
 jQuery.validator.addMethod(
     "alphanumeric",
     function (value, element) {
-        return this.optional(element) || /^[\w.]+$/i.test(value);
+        return this.optional(element) || /^[\w.]+$/i.test(value)
     },
-);
+)
 
 //----------------------------------------ProgressBar---------------------------------
 let progressbar = () => {
@@ -80,12 +80,12 @@ let progressbar = () => {
 }
 
 let createQuizQuestion = () => {
-    $(`#questions`).append(`<h2> ${IndexCurrentQuestion+1}-${questionsData[IndexCurrentQuestion].question} </h2>`);
+    $(`#questions`).append(`<h2> ${IndexCurrentQuestion+1}-${questionsData[IndexCurrentQuestion].question} </h2>`)
     //---------------------------Choix de réponses----------------------------
     for (let r = 0; r < questionsData[IndexCurrentQuestion].réponses.length; r++) {
         let inputResponseChoice = `<input type=radio class=form-check-input name=reponse${IndexCurrentQuestion} id=reponse${r} value=${r}>`
         let labelResponseChoise = `<label  for=reponse${r}>${questionsData[IndexCurrentQuestion].réponses[r]}</label><br>`
-        $(`#questions`).append(inputResponseChoice, labelResponseChoise);
+        $(`#questions`).append(inputResponseChoice, labelResponseChoise)
     }
     //---------------------------Création boutons---------------------------
     let btnNext = `<div><button type=button name=validResponse>Suivant</button></div>`
@@ -93,27 +93,27 @@ let createQuizQuestion = () => {
     IndexCurrentQuestion != questionsData.length-1 ? $(`#questions`).append(btnNext) : $(`#questions`).append(btnEnd)
 
     $(`button[name=validResponse]`).on("click", function () {
-        let checked = $(this).parent().parent().find("input:checked");
+        let checked = $(this).parent().parent().find("input:checked")
 
         if (checked.length != 0) {
             if (IndexCurrentQuestion  != questionsData.length) {
                 //insertion de la réponse de l'utilisateur dans l'objet "questionsData"
-                questionsData[IndexCurrentQuestion-1].resUser = checked.attr("value");
+                questionsData[IndexCurrentQuestion-1].resUser = checked.attr("value")
                 //animation
                 $("#questions").fadeOut(300).queue(function() {
                     $(`#questions`).html("")
                     $("#questions").fadeIn(800)
                     createQuizQuestion()
                     progressbar()
-                    $(this).dequeue();
-                 });
+                    $(this).dequeue()
+                 })
             } else {//Dernière Questions
 
                 //insertion de la réponse de l'utilisateur dans l'objet "questionsData"
-                questionsData[IndexCurrentQuestion-1].resUser = checked.attr("value");
+                questionsData[IndexCurrentQuestion-1].resUser = checked.attr("value")
                 $(`#bloc-questions`).remove()
                 $("#progressbar").remove()
-                $("#pageResult").removeClass("d-none");
+                $("#pageResult").removeClass("d-none")
                 pageResult()
             }
         }
@@ -130,15 +130,15 @@ function pageResult(){
     infoResult()
 }
 
-//----------------------------------alcul Bonnes Réponses-----------------------------
+//----------------------------------Calcul Bonnes Réponses-----------------------------
 function totalNbrRes() {
     let goodRes = 0;
     questionsData.forEach(function (q) {
         if (q.réponse == q.resUser) {
-            q.verdictRes = "Correct";
+            q.verdictRes = "Correct"
             goodRes++;
         } else {
-            q.verdictRes = "Erreur";
+            q.verdictRes = "Erreur"
         }
     });
     return goodRes
@@ -155,11 +155,11 @@ function modal(){
           modal: true,
           buttons: {
             Ok: function() {
-              $( this ).dialog( "close" );
+              $( this ).dialog( "close" )
             }
           }
-        });
-      });
+        })
+      })
 }
 //---------------------------------Message alert -----------------------------------
 function alertMessage(){
@@ -177,20 +177,20 @@ function alertMessage(){
 //----------------------------------Calcul de la Date de Naissance-----------------------------
 function ageUser() {
     let dateNow = new Date();
-    let dateEnterUser = new Date($('#date').val());
+    let dateEnterUser = new Date($('#date').val())
 
-    let nowYear = dateNow.getFullYear();
-    let userYear = dateEnterUser.getFullYear();
-    let ageValue = parseInt(nowYear - userYear);
+    let nowYear = dateNow.getFullYear()
+    let userYear = dateEnterUser.getFullYear()
+    let ageValue = parseInt(nowYear - userYear)
 
     if (dateNow.getMonth() < dateEnterUser.getMonth()) {
-        ageValue -= 1;
+        ageValue -= 1
     } else if (dateNow.getMonth() == dateEnterUser.getMonth()) {
         if (dateNow.getDay() < dateEnterUser.getDay()) {
-            ageValue -= 1;
+            ageValue -= 1
         }
     }
-    return ageValue;
+    return ageValue
 }
 //-------------------------------------Tableau question + resultat----------------------------------
 function tabResult(){
@@ -216,24 +216,24 @@ function accordeon(){
         for (let q = 0; q < questionsData[i].réponses.length; q++) {
             $(`.titre${i}`).append(`<p class="contenu">${questionsData[i].réponses[q]}</p>`)   
         }
-        $(".contenu").hide();
+        $(".contenu").hide()
         $(`.titre${i}`).on("click", function () {
             $(".contenu").hide(500)
-            $(this).parent().find(".contenu").show();
-        });
+            $(this).parent().find(".contenu").show()
+        })
     }
 }
     //-------------------------------info + résusltat de l'utilisateur----------------------------
 let infoResult = () => {
-    let nomValue = $("#nom").val();
-    let prenomValue = $("#prenom").val();
-    let statutValue = $("option:checked").html();
-    let nom = `<p>Nom : ${nomValue}</p>`;
-    let prenom = `<p>Prénom : ${prenomValue}</p>`;
-    let age = `<p>Age : ${ageUser()}</p>`;
-    let statut = `<p>Statut : ${statutValue}</p>`;
-    let score = `Votre Score : ${calculScore()} %`;
-    $("#infoUtilisateur").append(nom, prenom, age , statut, score);
-};
+    let nomValue = $("#nom").val()
+    let prenomValue = $("#prenom").val()
+    let statutValue = $("option:checked").html()
+    let nom = `<p>Nom : ${nomValue}</p>`
+    let prenom = `<p>Prénom : ${prenomValue}</p>`
+    let age = `<p>Age : ${ageUser()}</p>`
+    let statut = `<p>Statut : ${statutValue}</p>`
+    let score = `Votre Score : ${calculScore()} %`
+    $("#infoUtilisateur").append(nom, prenom, age , statut, score)
+}
 
 
