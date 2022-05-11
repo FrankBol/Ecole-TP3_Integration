@@ -21,23 +21,23 @@ let questionsJson = `[
 },
 {
     "numero":"3",
-    "question":"HTML:",
+    "question":"Lorsque vous utilisez l'élément a, vous devez obligatoirement préciser...",
     "réponses":[
-        "Hyper Typo Meta Lol",
-        "Hypertext markup language", 
-        "Je ne sais pas"
+        "Un attribut target",
+        "Un attribut href", 
+        "Deux attributs href et target"
     ], 
-    "réponse":2
+    "réponse":1
 },
 {
     "numero":"4",
-    "question":"HTML:",
+    "question":"Laquelle de ces syntaxes est correcte pour écrire un commentaire en HTML:",
     "réponses":[
-        "Hyper Typo Meta Lol",
-        "Hypertext markup language", 
-        "Je ne sais pas"
+        "<!--Commentaire-->",
+        "<--Commentaire-->", 
+        "<!--Commentaire--!>"
     ], 
-    "réponse":2
+    "réponse":0
 }
 ]`
 
