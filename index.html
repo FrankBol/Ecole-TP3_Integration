@@ -30,12 +30,12 @@
         <input type="text" name="nom" id="nom" aria-label="Nom" class="form-control" >
       </div>
       <div class="form-group">
-        <label for="dateNaissance">Date de Naissance</label>
+        <label for="date">Date de Naissance</label>
         <input type="date" name="dateNaissance" id="date" aria-label="date" class="form-control">
       </div>
       <div class="form-group">
         <label for="statut">Votre Statut</label>
-        <select class="form-control" aria-label="statut" name="statut">
+        <select class="form-control" aria-label="statut" id="statut" name="statut">
           <option value="">--Choisir--</option>
           <option value="etudiant">Étudiant</option>
           <option value="proffesseur">Professeur</option>
@@ -51,7 +51,7 @@
   <div id="progressbar" class="progressbar"></div>
   <div id="bloc-questions" class="d-none bloc-questions">
     <h1>QUIZ</h1>
-  <div id="questions" class="questions animation-question"></div>
+  <div id="questions" aria-live="polite" class="questions animation-question"></div>
   </div>
 
   <!-- -----------------------------------------Page Résultat--------------------------------------- -->
@@ -59,7 +59,7 @@
   <div id="modalResultat" title="Résultat"></div>
   <div id="alertResult" role="alert"></div>
 
-  <div id="pageResult" class="d-none ">
+  <div id="pageResult" class="d-none px-5">
   <h1 class="text-center text-white">Vos résultat en détaille</h1>
   <div class="row mt-5">
     <section id="infoUtilisateur" class="col-3 bg-success border shadow rounded border-dark p-5">

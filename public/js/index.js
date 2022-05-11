@@ -212,9 +212,10 @@ function tabResult(){
 function accordeon(){
     for (let i = 0; i < questionsData.length; i++) {
         $("#accordeon").append(`<div class='drawer${i}'></div>`)
-        $(`.drawer${i}`).append(`<p class="titre${i}">${i+1}-${questionsData[i].question}</p>`)
+        $(`.drawer${i}`).append(`<h3 class="titre${i}">${i+1} -${questionsData[i].question}</h3>`)
+        $(`.drawer${i}`).append(`<div class="grosseDiv${i}"></div>`)
         for (let q = 0; q < questionsData[i].réponses.length; q++) {
-            $(`.titre${i}`).append(`<p class="contenu">${questionsData[i].réponses[q]}</p>`)   
+            $(`.grosseDiv${i}`).append(`<p class="contenu border-bottom border-dark">${questionsData[i].réponses[q]}</p>`)   
         }
         $(".contenu").hide()
         $(`.titre${i}`).on("click", function () {

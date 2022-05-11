@@ -11,7 +11,7 @@ let questionsJson = `[
 },
 {
     "numero":"2",
-    "question":"HTML vient de :",
+    "question":"HTML vient de:",
     "réponses":[
         "Hyper Typo Meta Lol",
         "Hypertext markup language", 
@@ -21,7 +21,7 @@ let questionsJson = `[
 },
 {
     "numero":"3",
-    "question":"HTML  :",
+    "question":"HTML:",
     "réponses":[
         "Hyper Typo Meta Lol",
         "Hypertext markup language", 
@@ -31,7 +31,7 @@ let questionsJson = `[
 },
 {
     "numero":"4",
-    "question":"HTML  :",
+    "question":"HTML:",
     "réponses":[
         "Hyper Typo Meta Lol",
         "Hypertext markup language", 
