@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Sen&display=swap');
 
 $primary: #8CACD3;
 $secondary : #bebaca;
@@ -8,12 +9,13 @@ $grey: #939597;
 
 *{
     box-sizing: border-box!important;
-    font-family: carter one;
+    font-family: Sen;
 }
 
 
 body{
     background: $secondary!important;
+
 }
 
 .error{
